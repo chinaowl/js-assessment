@@ -24,7 +24,19 @@ exports.arraysAnswers = {
   },
 
   removeWithoutCopy: function(arr, item) {
+    var indicesToRemove = [];
+    var removedSoFar = 0;
 
+    arr.forEach(function(element, index) {
+      if (element === item) indicesToRemove.push(index);
+    });
+
+    indicesToRemove.forEach(function(index) {
+      arr.splice(index - removedSoFar, 1);
+      removedSoFar++;
+    });
+
+    return arr;
   },
 
   append: function(arr, item) {
@@ -52,7 +64,8 @@ exports.arraysAnswers = {
   },
 
   insert: function(arr, item, index) {
-    return arr.slice(0, index).concat(item, arr.slice(index));
+    arr.splice(index, 0, item);
+    return arr;
   },
 
   count: function(arr, item) {
@@ -62,7 +75,22 @@ exports.arraysAnswers = {
   },
 
   duplicates: function(arr) {
+    var countMap = {};
+    var result = [];
 
+    arr.forEach(function(element) {
+      if (countMap[element]) {
+        countMap[element]++;
+      } else {
+        countMap[element] = 1;
+      }
+    });
+
+    for (var item in countMap) {
+      if (countMap[item] > 1) result.push(parseInt(item));
+    }
+
+    return result;
   },
 
   square: function(arr) {
