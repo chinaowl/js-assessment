@@ -2,9 +2,7 @@ exports = typeof window === 'undefined' ? global : window;
 
 exports.arraysAnswers = {
   indexOf: function(arr, item) {
-    return arr.findIndex(function(element) {
-      return element === item;
-    });
+    return arr.indexOf(item);
   },
 
   sum: function(arr) {
@@ -87,7 +85,7 @@ exports.arraysAnswers = {
     });
 
     for (var item in countMap) {
-      if (countMap[item] > 1) result.push(parseInt(item));
+      if (countMap[item] > 1) result.push(parseInt(item, 10));
     }
 
     return result;
