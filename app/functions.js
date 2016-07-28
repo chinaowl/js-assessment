@@ -2,11 +2,11 @@ exports = typeof window === 'undefined' ? global : window;
 
 exports.functionsAnswers = {
   argsAsArray: function(fn, arr) {
-    fn.apply(undefined, arr);
+    return fn.apply(null, arr);
   },
 
   speak: function(fn, obj) {
-    fn.call(obj);
+    return fn.call(obj);
   },
 
   functionFunction: function(str) {
@@ -45,10 +45,27 @@ exports.functionsAnswers = {
   },
 
   partialUsingArguments: function(fn) {
-
+    var args = Array.prototype.slice.call(arguments).slice(1);
+    
+    return function() {
+      var moreArgs = Array.prototype.slice.call(arguments);
+      return fn.apply(null, args.concat(moreArgs));
+    }
   },
 
   curryIt: function(fn) {
+    function accumulateArguments(args, expectedArgsCount) {
+      return function(currentArg) {
+        args.push(currentArg);
 
+        if (args.length === expectedArgsCount) {
+          return fn.apply(null, args);
+        }
+
+        return accumulateArguments(args, expectedArgsCount);
+      }
+    }
+
+    return accumulateArguments([], fn.length);
   }
 };
