@@ -24,7 +24,28 @@ exports.recursionAnswers = {
   },
 
   permute: function(arr) {
+    var result, i, copy;
 
+    function permuteHelper(arr) {
+      if (arr.length === 1) return [arr];
+
+      var current = arr[0];
+      var theRest = permuteHelper(arr.slice(1));
+
+      result = [];
+
+      theRest.forEach(function(item) {
+        for (i = 0; i <= item.length; i++) {
+          copy = item.slice();
+          copy.splice(i, 0, current);
+          result.push(copy);
+        }
+      });
+
+      return result;
+    }
+
+    return permuteHelper(arr);
   },
 
   fibonacci: function(n) {
@@ -39,7 +60,7 @@ exports.recursionAnswers = {
 
   validParentheses: function(n) {
     var two = ['(())', '()()'];
-    var current = [];
+    var result = [];
 
     function validParenthesesHelper(n) {
       if (n === 1) return ['()'];
@@ -49,14 +70,14 @@ exports.recursionAnswers = {
       previous.forEach(function(str) {
         for (var i = 0; i < str.length - 1; i++) {
           if (str.charAt(i) === '(' && str.charAt(i + 1) === ')') {
-            current.push(str.substring(0, i) + two[0] + str.substring(i + 2));
-            current.push(str.substring(0, i) + two[1] + str.substring(i + 2));
+            result.push(str.substring(0, i) + two[0] + str.substring(i + 2));
+            result.push(str.substring(0, i) + two[1] + str.substring(i + 2));
             i++;
           }
         }
       });
 
-      return current.filter(function(item, index, array) {
+      return result.filter(function(item, index, array) {
         return array.indexOf(item) === index;
       });
     }
