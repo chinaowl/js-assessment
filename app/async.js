@@ -8,7 +8,7 @@ exports.asyncAnswers = {
   },
 
   manipulateRemoteData: function(url) {
-    var promise = new Promise(function(resolve, reject) {
+    return new Promise(function(resolve, reject) {
       var request = new XMLHttpRequest();
 
       request.onload = function() {
@@ -27,7 +27,5 @@ exports.asyncAnswers = {
       request.open('GET', url);
       request.send();
     });
-
-    return promise;
   }
 };

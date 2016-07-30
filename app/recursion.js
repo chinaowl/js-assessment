@@ -38,6 +38,29 @@ exports.recursionAnswers = {
   },
 
   validParentheses: function(n) {
+    var two = ['(())', '()()'];
+    var current = [];
 
+    function validParenthesesHelper(n) {
+      if (n === 1) return ['()'];
+      if (n === 2) return two;
+
+      var previous = validParenthesesHelper(n - 1);
+      previous.forEach(function(str) {
+        for (var i = 0; i < str.length - 1; i++) {
+          if (str.charAt(i) === '(' && str.charAt(i + 1) === ')') {
+            current.push(str.substring(0, i) + two[0] + str.substring(i + 2));
+            current.push(str.substring(0, i) + two[1] + str.substring(i + 2));
+            i++;
+          }
+        }
+      });
+
+      return current.filter(function(item, index, array) {
+        return array.indexOf(item) === index;
+      });
+    }
+
+    return validParenthesesHelper(n);
   }
 };
